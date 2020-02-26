@@ -434,6 +434,7 @@ func get(envInfo *cmds.Agent) (*config.Node, error) {
 	nodeConfig.Containerd.Address = filepath.Join(nodeConfig.Containerd.State, "containerd.sock")
 	nodeConfig.Containerd.Template = filepath.Join(envInfo.DataDir, "etc/containerd/config.toml.tmpl")
 	nodeConfig.ServerAddress = serverURLParsed.Host
+	nodeConfig.AgentConfig.ServerIsPublic = envInfo.ServerURLPublic
 	nodeConfig.Certificate = servingCert
 
 	if nodeConfig.FlannelBackend == config.FlannelBackendNone {

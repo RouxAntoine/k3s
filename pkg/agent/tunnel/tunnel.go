@@ -75,7 +75,11 @@ func Setup(ctx context.Context, config *config.Node, onChange func([]string)) er
 
 	endpoint, _ := client.CoreV1().Endpoints("default").Get("kubernetes", metav1.GetOptions{})
 	if endpoint != nil {
-		addresses = getAddresses(endpoint)
+		if !config.AgentConfig.ServerIsPublic {
+			addresses = getAddresses(endpoint)
+		} else {
+			logrus.Infof("Server is on Public IP: %v", addresses)
+		}
 		if onChange != nil {
 			onChange(addresses)
 		}
@@ -120,6 +124,12 @@ func Setup(ctx context.Context, config *config.Node, onChange func([]string)) er
 					}
 
 					newAddresses := getAddresses(endpoint)
+
+					if config.AgentConfig.ServerIsPublic {
+						copy(newAddresses, addresses)
+						logrus.Infof("Server is on Public IP, overwriting addresses to: %v", newAddresses)
+					}
+
 					if reflect.DeepEqual(newAddresses, addresses) {
 						continue watching
 					}

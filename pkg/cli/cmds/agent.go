@@ -27,6 +27,7 @@ type Agent struct {
 	Debug                    bool
 	Rootless                 bool
 	RootlessAlreadyUnshared  bool
+	ServerURLPublic          bool
 	WithNodeID               bool
 	DisableSELinux           bool
 	AgentShared
@@ -192,7 +193,11 @@ func NewAgentCommand(action func(ctx *cli.Context) error) cli.Command {
 				Usage:       "(experimental) Run rootless",
 				Destination: &AgentConfig.Rootless,
 			},
-
+			cli.BoolFlag{
+				Name:        "server-public",
+				Usage:       "(experimental) Server behind public IP",
+				Destination: &AgentConfig.ServerURLPublic,
+			},
 			// Deprecated/hidden below
 
 			FlannelFlag,
