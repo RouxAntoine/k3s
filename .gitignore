@@ -2,6 +2,7 @@
 /.dapper
 /.tags
 /.idea
+*.iml
 /.trash-cache
 /.vagrant
 /.kube

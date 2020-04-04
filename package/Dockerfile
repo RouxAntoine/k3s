@@ -7,7 +7,8 @@ RUN cd image/bin && \
     rm -f k3s && \
     ln -s k3s-server k3s
 
-FROM scratch
+#FROM scratch
+FROM alpine:3.11.5
 COPY --from=base /image /
 RUN mkdir -p /etc && \
     echo 'hosts: files dns' > /etc/nsswitch.conf
